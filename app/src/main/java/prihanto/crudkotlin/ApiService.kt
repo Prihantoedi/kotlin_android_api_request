@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface ApiService {
 
-    @GET("simpleapi/api.php?id=6")
+    @GET("simpleapi/api.php?id=1")
     fun getData(): Call<Users>
 }
