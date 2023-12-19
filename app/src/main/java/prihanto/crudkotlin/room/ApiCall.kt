@@ -3,6 +3,8 @@ package prihanto.crudkotlin.room
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
 import prihanto.crudkotlin.ApiService
 import prihanto.crudkotlin.Users
 import retrofit2.Call
@@ -10,7 +12,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
+import retrofit2.http.POST
+import java.util.concurrent.TimeUnit
 
 //import javax.security.auth.callback.Callback
 
@@ -25,7 +28,7 @@ class ApiCall {
         // create a retrofit instance with the base URL and
         // a GsonConverterFactory for parsing the response
 
-        val retrofit: Retrofit = Retrofit.Builder().baseUrl("https://6309-180-254-113-97.ngrok-free.app/").addConverterFactory(GsonConverterFactory.create()).build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl("https://78b4-180-254-113-97.ngrok-free.app/").addConverterFactory(GsonConverterFactory.create()).build()
 
         // Create an ApiService instance from the Retrofit instance
 
@@ -62,5 +65,51 @@ class ApiCall {
                 Log.i("apifailed", "Api has no response")
             }
         })
+    }
+
+
+    fun postingDataUsingRetrofit(name: String, email: String, password: String){
+
+        val gson = GsonBuilder().setLenient().create()
+
+        val ohc = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS).build()
+        // create an instance of retrofit
+
+
+        val retrofit = Retrofit.Builder().baseUrl("https://78b4-180-254-113-97.ngrok-free.app/").addConverterFactory(GsonConverterFactory.create(gson)).client(ohc).build()
+        // create an instance retrofit:
+
+        val apiService = retrofit.create(ApiService::class.java)
+        // create the request body
+        val body = mapOf(
+            "name" to name,
+            "email" to email,
+            "password" to password
+        )
+
+        Log.d("body_dbg", body.toString())
+        // make the request:
+
+        apiService.postData(body).enqueue(object : Callback<CreateAccountResponseModel> {
+            override fun onResponse(
+                call: Call<CreateAccountResponseModel>,
+                response: Response<CreateAccountResponseModel>
+            ) {
+//                Log.i("api_response_success", response.body().toString())
+                if(response.isSuccessful){
+                    Log.i("post", "post method is successfull")
+                } else{
+                    Log.e("Retrofit", "Error response: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<CreateAccountResponseModel>, t: Throwable) {
+                Log.e("api_response_failed", t.message.toString())
+            }
+        })
+
+
+
+
     }
 }

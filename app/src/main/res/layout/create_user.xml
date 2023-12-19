@@ -26,6 +26,7 @@
         android:inputType="text"
         />
     <EditText
+        android:id="@+id/input_password"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -33,9 +34,11 @@
         android:ellipsize="start"
         android:inputType="text"/>
     <Button
+        android:id="@+id/btn_create_acc"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="Buat Akun"/>
+        android:text="Buat Akun"
+        android:backgroundTint="@color/design_default_color_secondary_variant"/>
 </LinearLayout>
