@@ -11,11 +11,13 @@ import prihanto.crudkotlin.room.ApiCall
 class MainActivity : AppCompatActivity() {
     private lateinit var buttonCreate : Button
     private lateinit var buttonPost: Button
+    private lateinit var buttonToListUserPage: Button
     private var arrayList = ArrayList<Users>()
 //
     private fun initComponents(){
         buttonCreate = findViewById(R.id.button_create)
         buttonPost = findViewById(R.id.button_post)
+        buttonToListUserPage = findViewById(R.id.buttonToListUserPage)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,11 @@ class MainActivity : AppCompatActivity() {
         buttonPost.setOnClickListener{
             val toPostIntent = Intent(this, PostActivity::class.java)
             startActivity(toPostIntent)
+        }
+
+        buttonToListUserPage.setOnClickListener{
+            val toListUserIntent = Intent(this, DeleteActivity::class.java)
+            startActivity(toListUserIntent)
         }
     }
 }
