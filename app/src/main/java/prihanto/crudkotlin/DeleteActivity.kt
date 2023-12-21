@@ -22,15 +22,20 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.flexbox.FlexboxLayout.LayoutParams
 import com.google.android.flexbox.FlexboxLayout.TEXT_ALIGNMENT_CENTER
+import org.w3c.dom.Text
 
 class DeleteActivity : AppCompatActivity(){
 
     private lateinit var btnAddUser: Button
+    private lateinit var btnDeleteUser: Button
     private lateinit var linearLayoutUserList: LinearLayout
+    private lateinit var flexBoxUser1: FlexboxLayout
 
     private fun initComponents(){
         btnAddUser = findViewById(R.id.btn_add_user)
+        btnDeleteUser = findViewById(R.id.btnDelUser1)
         linearLayoutUserList = findViewById(R.id.linLayUserList)
+        flexBoxUser1 = findViewById(R.id.flexBoxUser1)
     }
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +44,8 @@ class DeleteActivity : AppCompatActivity(){
 
         initComponents()
         addUser()
+        traceClickedBtnEvent(linearLayoutUserList)
+//        deleteUser()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -80,11 +87,81 @@ class DeleteActivity : AppCompatActivity(){
             newBtn.text = "Delete"
             newBtn.setTextColor(getColor(R.color.white))
             newBtn.backgroundTintList = getColorStateList(R.color.teal_700)
+//            newBtn.fun
 
             newFbLayout.addView(newBtn)
             linearLayoutUserList.addView(newFbLayout)
         }
     }
+
+    fun traceClickedBtnEvent(viewGroup: ViewGroup){
+
+        Log.d("trace_program", viewGroup.childCount.toString())
+//        linearLayoutUserList.setOnClickListener{view ->
+//            Log.d("tracing_clicked_button", "this is running")
+//            if (view is Button){
+//                var fbAsParentLayout: FlexboxLayout = view.parent as FlexboxLayout
+//
+//                var textViewTarget: TextView = fbAsParentLayout.getChildAt(0) as TextView
+//
+//                Log.d("tracing_clicked_button", textViewTarget.text.toString())
+//            }
+//
+//        }
+
+        for(i in 0 until viewGroup.childCount){
+            Log.d("trace_program", i.toString())
+            val flexBoxViewAsChild = viewGroup.getChildAt(i) as FlexboxLayout
+
+//            flexBoxViewAsChild.setOnClickListener{ view ->
+//
+//                Log.d("trace_program", "This is running")
+//                if(view is Button){
+//                    val textViewTarget = flexBoxViewAsChild.getChildAt(0) as TextView
+//                    textViewTarget.text = "this is infected"
+//                }
+//            }
+
+            val btnDeleteTarget = flexBoxViewAsChild.getChildAt(1) as Button
+
+            btnDeleteTarget.setOnClickListener{
+                val textViewTarget = flexBoxViewAsChild.getChildAt(0) as TextView
+                Log.d("trace_program", textViewTarget.text.toString())
+            }
+
+        }
+    }
+//    fun deleteUser(){
+//        btnDeleteUser.setOnClickListener{ view ->
+//
+////            val parentLayout: View = view.parent as View
+//            val fbAsParentLayout: FlexboxLayout = view.parent as FlexboxLayout
+//
+//            val flexBoxIndex = linearLayoutUserList.indexOfChild(fbAsParentLayout)
+//
+//            val flexBoxTarget = linearLayoutUserList.getChildAt(flexBoxIndex) as FlexboxLayout
+//
+//            val txtViewTarget = flexBoxTarget.getChildAt(0) as TextView
+//
+//            txtViewTarget.text = "Text success changed"
+//
+//
+//
+//
+////            val buttonIdx = flexBoxUser1.indexOfChild(view)
+////
+////            if (buttonIdx > 0){
+//////                val previousElement: View = flexBoxUser1.getChildAt(buttonIdx-1)
+//////                if(previousElement is TextView){
+//////                    val previousTxtView = previousElement as TextView
+//////                    Log.d("check_parent", previousTxtView.text.toString())
+//////                }
+////            }
+//
+//
+//
+//        }
+//    }
 
 
 }
