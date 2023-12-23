@@ -1,6 +1,7 @@
 package prihanto.crudkotlin
 
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +11,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.MediaController
 
 import android.widget.TextView
+import android.widget.Toast
+import android.widget.VideoView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.text.style.TextAlign
@@ -31,11 +35,15 @@ class DeleteActivity : AppCompatActivity(){
     private lateinit var linearLayoutUserList: LinearLayout
     private lateinit var flexBoxUser1: FlexboxLayout
 
+    var simpleVideoView: VideoView? = null
+    var mediaControls: MediaController? = null
+
     private fun initComponents(){
         btnAddUser = findViewById(R.id.btn_add_user)
         btnDeleteUser = findViewById(R.id.btnDelUser1)
         linearLayoutUserList = findViewById(R.id.linLayUserList)
         flexBoxUser1 = findViewById(R.id.flexBoxUser1)
+
     }
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +54,55 @@ class DeleteActivity : AppCompatActivity(){
         addUser()
         traceClickedBtnEvent(linearLayoutUserList)
 //        deleteUser()
+//        simpleVideoView = findViewById<VideoView>(R.id.simpleVideoView)
+
+//        if(mediaControls == null){
+//            // creating an object of media controller class
+//
+//            mediaControls = MediaController(this)
+//
+//            // set the anchor view for the video view
+//            mediaControls!!.setAnchorView(this.simpleVideoView)
+//        }
+//
+//        // set the media controller for video view
+//        simpleVideoView!!.setMediaController(mediaControls)
+//
+//        // set the absolute path of the video file which is going to be played
+//
+////        example:
+////        simpleVideoView!!.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.gfgvideo))
+//        simpleVideoView!!.setVideoURI(Uri.parse("https://www.youtube.com/embed/XgyWXglAzsE?si=rVEvd-ImKe8J4MRi"))
+//
+//        simpleVideoView!!.requestFocus()
+//
+//        // starting the video
+//        simpleVideoView!!.start()
+//
+//        // display a toast message
+//        // after the video is completed
+//
+//        simpleVideoView!!.setOnCompletionListener {
+//            Toast.makeText(applicationContext, "Video completed", Toast.LENGTH_LONG).show()
+//            true
+//        }
+//
+//        // display a toast message if any
+//        // error occurs while playing the video
+//
+//        simpleVideoView!!.setOnErrorListener { mp, what, extra ->
+//            Toast.makeText(applicationContext, "An Error Occured While Playing Video!!!", Toast.LENGTH_LONG).show()
+//            false
+//        }
+
+        val sharedPrefer = getSharedPreferences("mySession", Context.MODE_PRIVATE)
+
+        val username = sharedPrefer.getString("username", "")
+        val userScore = sharedPrefer.getInt("userScore", 0)
+
+        Log.d("trace_session", username.toString())
+        Log.d("trace_session", userScore.toString())
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -88,6 +145,11 @@ class DeleteActivity : AppCompatActivity(){
             newBtn.setTextColor(getColor(R.color.white))
             newBtn.backgroundTintList = getColorStateList(R.color.teal_700)
 //            newBtn.fun
+            newBtn.setOnClickListener{this_view ->
+                val newBtnParent = this_view.parent as FlexboxLayout
+                val getThisPrevElement = newBtnParent.getChildAt(0) as TextView
+                getThisPrevElement.text = "This is infeceted"
+            }
 
             newFbLayout.addView(newBtn)
             linearLayoutUserList.addView(newFbLayout)

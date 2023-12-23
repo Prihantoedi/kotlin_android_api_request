@@ -33,5 +33,13 @@
         android:layout_margin="0dp"
         />
 
+    <Button
+        android:id="@+id/buttonToVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ke Video"
+        android:layout_margin="0dp"
+        />
+
 
 </LinearLayout>

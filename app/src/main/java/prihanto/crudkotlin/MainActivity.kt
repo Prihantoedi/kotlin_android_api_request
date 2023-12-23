@@ -1,5 +1,6 @@
 package prihanto.crudkotlin
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,11 +14,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonPost: Button
     private lateinit var buttonToListUserPage: Button
     private var arrayList = ArrayList<Users>()
+    private lateinit var buttonToVideo : Button
 //
     private fun initComponents(){
         buttonCreate = findViewById(R.id.button_create)
         buttonPost = findViewById(R.id.button_post)
         buttonToListUserPage = findViewById(R.id.buttonToListUserPage)
+        buttonToVideo = findViewById(R.id.buttonToVideo)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +50,40 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonPost.setOnClickListener{
+            // remove the session
+            val sharedPref = getSharedPreferences("mySession", Context.MODE_PRIVATE)
+            val editor = sharedPref.edit()
+
+            editor.remove("username")
+            editor.remove("userScore")
+
+            editor.apply()
+
+            // move to another activity
             val toPostIntent = Intent(this, PostActivity::class.java)
             startActivity(toPostIntent)
         }
 
         buttonToListUserPage.setOnClickListener{
+
+            // set the session
+            val sharedPref = getSharedPreferences("mySession", Context.MODE_PRIVATE)
+
+            val editor = sharedPref.edit()
+
+            editor.putString("username", "Prihanto")
+            editor.putInt("userScore", 100)
+            editor.apply()
+
+
+            // move to another activity
             val toListUserIntent = Intent(this, DeleteActivity::class.java)
             startActivity(toListUserIntent)
+        }
+
+        buttonToVideo.setOnClickListener{
+            val toVideoIntent = Intent(this, VideoActivity::class.java)
+            startActivity(toVideoIntent)
         }
     }
 }
